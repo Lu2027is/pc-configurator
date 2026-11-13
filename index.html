@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurador de PC &amp; Compatibilidade | Luís Tavares</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        porto: {
+                            DEFAULT: '#002D72',
+                            light: '#00428C',
+                            dark: '#001B44',
+                            accent: '#38BDF8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#020B18] text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-[#001B44] via-[#002D72] to-[#00428C] border-b border-sky-400/20 py-6 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-sky-300 flex items-center gap-2">
+                    <i class="fa-solid fa-microchip"></i> Projeto Técnico de Hardware &amp; Programação
+                </span>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">
+                    Configurador de PC &amp; Verificador
+                </h1>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="carregarPreset('escritorio')" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-white border border-white/15 transition">
+                    <i class="fa-solid fa-briefcase mr-1.5 text-sky-300"></i> Preset Escritório
+                </button>
+                <button onclick="carregarPreset('gaming')" class="px-4 py-2 rounded-xl bg-sky-400 hover:bg-sky-300 text-xs font-bold text-[#001B44] transition shadow-lg shadow-sky-400/20">
+                    <i class="fa-solid fa-gamepad mr-1.5"></i> Preset Gaming
+                </button>
+                <button onclick="limparTudo()" class="px-4 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-xs font-semibold text-red-200 border border-red-400/20 transition">
+                    Limpar
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 py-10 flex-1 w-full grid lg:grid-cols-3 gap-8">
+
+        <!-- Coluna Esquerda: Seleção de Componentes -->
+        <div class="lg:col-span-2 space-y-5">
+
+            <!-- Processador (CPU) -->
+            <div class="bg-white/[0.04] border border-sky-400/15 rounded-2xl p-5">
+                <label class="flex items-center gap-2.5 text-sm font-bold text-sky-300 uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-microchip text-base"></i> 1. Processador (CPU)
+                </label>
+                <select id="cpu" onchange="atualizarBuild()" class="w-full bg-[#061428] border border-blue-800/60 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-sky-400">
+                    <option value="">-- Escolher Processador --</option>
+                    <option value="i3-12100f" data-preco="95" data-watts="58" data-socket="LGA1700" data-nome="Intel Core i3-12100F">Intel Core i3-12100F (Socket LGA1700 | 58W) - 95€</option>
+                    <option value="i5-13400f" data-preco="210" data-watts="148" data-socket="LGA1700" data-nome="Intel Core i5-13400F">Intel Core i5-13400F (Socket LGA1700 | 148W) - 210€</option>
+                    <option value="i7-14700k" data-preco="420" data-watts="253" data-socket="LGA1700" data-nome="Intel Core i7-14700K">Intel Core i7-14700K (Socket LGA1700 | 253W) - 420€</option>
+                    <option value="r5-7600" data-preco="205" data-watts="65" data-socket="AM5" data-nome="AMD Ryzen 5 7600">AMD Ryzen 5 7600 (Socket AM5 | 65W) - 205€</option>
+                    <option value="r7-7800x3d" data-preco="390" data-watts="120" data-socket="AM5" data-nome="AMD Ryzen 7 7800X3D">AMD Ryzen 7 7800X3D (Socket AM5 | 120W) - 390€</option>
+                </select>
+            </div>
+
+            <!-- Motherboard -->
+            <div class="bg-white/[0.04] border border-sky-400/15 rounded-2xl p-5">
+                <label class="flex items-center gap-2.5 text-sm font-bold text-sky-300 uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-server text-base"></i> 2. Motherboard
+                </label>
+                <select id="mobo" onchange="atualizarBuild()" class="w-full bg-[#061428] border border-blue-800/60 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-sky-400">
+                    <option value="">-- Escolher Motherboard --</option>
+                    <option value="h610-ddr4" data-preco="85" data-watts="30" data-socket="LGA1700" data-ram="DDR4" data-nome="ASUS Prime H610M (LGA1700 | DDR4)">ASUS Prime H610M (Socket LGA1700 | DDR4) - 85€</option>
+                    <option value="b760-ddr5" data-preco="155" data-watts="40" data-socket="LGA1700" data-ram="DDR5" data-nome="MSI B760 Gaming Plus (LGA1700 | DDR5)">MSI B760 Gaming Plus (Socket LGA1700 | DDR5) - 155€</option>
+                    <option value="b650-ddr5" data-preco="175" data-watts="45" data-socket="AM5" data-ram="DDR5" data-nome="Gigabyte B650 Eagle AX (AM5 | DDR5)">Gigabyte B650 Eagle AX (Socket AM5 | DDR5) - 175€</option>
+                </select>
+            </div>
+
+            <!-- Memória RAM -->
+            <div class="bg-white/[0.04] border border-sky-400/15 rounded-2xl p-5">
+                <label class="flex items-center gap-2.5 text-sm font-bold text-sky-300 uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-memory text-base"></i> 3. Memória RAM
+                </label>
+                <select id="ram" onchange="atualizarBuild()" class="w-full bg-[#061428] border border-blue-800/60 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-sky-400">
+                    <option value="">-- Escolher Memória RAM --</option>
+                    <option value="16gb-ddr4" data-preco="40" data-watts="10" data-tipo="DDR4" data-nome="16GB (2x8GB) DDR4 3200MHz">16GB (2x8GB) DDR4 3200MHz - 40€</option>
+                    <option value="32gb-ddr4" data-preco="75" data-watts="15" data-tipo="DDR4" data-nome="32GB (2x16GB) DDR4 3600MHz">32GB (2x16GB) DDR4 3600MHz - 75€</option>
+                    <option value="16gb-ddr5" data-preco="65" data-watts="12" data-tipo="DDR5" data-nome="16GB (2x8GB) DDR5 5600MHz">16GB (2x8GB) DDR5 5600MHz - 65€</option>
+                    <option value="32gb-ddr5" data-preco="115" data-watts="18" data-tipo="DDR5" data-nome="32GB (2x16GB) DDR5 6000MHz">32GB (2x16GB) DDR5 6000MHz - 115€</option>
+                </select>
+            </div>
+
+            <!-- Placa Gráfica (GPU) -->
+            <div class="bg-white/[0.04] border border-sky-400/15 rounded-2xl p-5">
+                <label class="flex items-center gap-2.5 text-sm font-bold text-sky-300 uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-display text-base"></i> 4. Placa Gráfica (GPU)
+                </label>
+                <select id="gpu" onchange="atualizarBuild()" class="w-full bg-[#061428] border border-blue-800/60 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-sky-400">
+                    <option value="">-- Gráficos Integrados / Sem Gráfica --</option>
+                    <option value="rtx3060" data-preco="290" data-watts="170" data-nome="NVIDIA GeForce RTX 3060 12GB">NVIDIA GeForce RTX 3060 12GB (170W) - 290€</option>
+                    <option value="rx7600" data-preco="275" data-watts="165" data-nome="AMD Radeon RX 7600 8GB">AMD Radeon RX 7600 8GB (165W) - 275€</option>
+                    <option value="rtx4070s" data-preco="630" data-watts="220" data-nome="NVIDIA GeForce RTX 4070 Super">NVIDIA GeForce RTX 4070 Super (220W) - 630€</option>
+                    <option value="rx7900xt" data-preco="740" data-watts="300" data-nome="AMD Radeon RX 7900 XT 20GB">AMD Radeon RX 7900 XT 20GB (300W) - 740€</option>
+                </select>
+            </div>
+
+            <!-- Fonte de Alimentação (PSU) -->
+            <div class="bg-white/[0.04] border border-sky-400/15 rounded-2xl p-5">
+                <label class="flex items-center gap-2.5 text-sm font-bold text-sky-300 uppercase tracking-wider mb-3">
+                    <i class="fa-solid fa-plug text-base"></i> 5. Fonte de Alimentação (PSU)
+                </label>
+                <select id="psu" onchange="atualizarBuild()" class="w-full bg-[#061428] border border-blue-800/60 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-sky-400">
+                    <option value="">-- Escolher Fonte de Alimentação --</option>
+                    <option value="500w" data-preco="50" data-capacidade="500" data-nome="Fonte 500W 80+ Bronze">Fonte 500W 80+ Bronze - 50€</option>
+                    <option value="650w" data-preco="75" data-capacidade="650" data-nome="Fonte 650W 80+ Gold">Fonte 650W 80+ Gold - 75€</option>
+                    <option value="850w" data-preco="115" data-capacidade="850" data-nome="Fonte 850W 80+ Gold Modular">Fonte 850W 80+ Gold Modular - 115€</option>
+                </select>
+            </div>
+
+        </div>
+
+        <!-- Coluna Direita: Resumo & Diagnóstico Técnico -->
+        <div class="space-y-6">
+            <div class="bg-gradient-to-b from-[#002D72]/60 to-[#061428] border border-sky-400/30 rounded-2xl p-6 sticky top-6">
+                <h2 class="text-xl font-bold text-white mb-5 flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-check text-sky-400"></i> Diagnóstico Técnico
+                </h2>
+
+                <!-- Métricas -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-[#020B18]/80 border border-blue-900/50 rounded-xl p-4">
+                        <span class="text-xs text-slate-400 block">Preço Total</span>
+                        <span id="total-preco" class="text-2xl font-extrabold text-sky-400 mt-1 block">0 €</span>
+                    </div>
+                    <div class="bg-[#020B18]/80 border border-blue-900/50 rounded-xl p-4">
+                        <span class="text-xs text-slate-400 block">Consumo Est.</span>
+                        <span id="total-watts" class="text-2xl font-extrabold text-white mt-1 block">0 W</span>
+                    </div>
+                </div>
+
+                <!-- Alertas de Compatibilidade -->
+                <div class="space-y-3 mb-6">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Estado de Compatibilidade</h3>
+                    <div id="alertas-container" class="space-y-2.5 text-sm">
+                        <div class="p-3.5 rounded-xl bg-blue-950/60 border border-sky-400/20 text-slate-300">
+                            Seleciona os componentes à esquerda para iniciar a verificação técnica.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista Resumo -->
+                <div class="border-t border-blue-900/50 pt-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Componentes Selecionados</h3>
+                    <ul id="lista-resumo" class="space-y-2 text-xs text-slate-300">
+                        <li class="text-slate-500 italic">Nenhuma peça selecionada ainda.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-blue-900/40 bg-[#010710] py-6 px-6 text-center text-xs text-slate-400">
+        Desenvolvido por <strong class="text-white">Luís Tavares</strong> • Técnico Especialista de Hardware &amp; Estudante de Programação
+    </footer>
+
+    <script>
+        function getSelectedData(id) {
+            const select = document.getElementById(id);
+            const option = select.options[select.selectedIndex];
+            if (!option || !option.value) return null;
+            return {
+                val: option.value,
+                nome: option.dataset.nome,
+                preco: parseFloat(option.dataset.preco || 0),
+                watts: parseFloat(option.dataset.watts || 0),
+                socket: option.dataset.socket || null,
+                ram: option.dataset.ram || null,
+                tipo: option.dataset.tipo || null,
+                capacidade: parseFloat(option.dataset.capacidade || 0)
+            };
+        }
+
+        function atualizarBuild() {
+            const cpu = getSelectedData('cpu');
+            const mobo = getSelectedData('mobo');
+            const ram = getSelectedData('ram');
+            const gpu = getSelectedData('gpu');
+            const psu = getSelectedData('psu');
+
+            const pecas = [cpu, mobo, ram, gpu, psu].filter(Boolean);
+
+            // Calcular preço e watts
+            const precoTotal = pecas.reduce((acc, p) => acc + p.preco, 0);
+            const wattsTotal = pecas.reduce((acc, p) => acc + p.watts, 0);
+
+            document.getElementById('total-preco').textContent = precoTotal + ' €';
+            document.getElementById('total-watts').textContent = wattsTotal + ' W';
+
+            // Atualizar lista resumo
+            const listaResumo = document.getElementById('lista-resumo');
+            if (pecas.length === 0) {
+                listaResumo.innerHTML = '<li class="text-slate-500 italic">Nenhuma peça selecionada ainda.</li>';
+            } else {
+                listaResumo.innerHTML = pecas.map(p =>
+                    `<li class="flex justify-between items-center bg-[#020B18]/60 px-3 py-2 rounded-lg">
+                        <span class="truncate pr-2">${p.nome}</span>
+                        <span class="font-bold text-sky-300 shrink-0">${p.preco}€</span>
+                    </li>`
+                ).join('');
+            }
+
+            // Verificações de compatibilidade
+            const alertas = [];
+            let temErro = false;
+
+            if (pecas.length === 0) {
+                alertas.push({
+                    tipo: 'info',
+                    texto: 'Seleciona os componentes à esquerda para iniciar a verificação técnica.'
+                });
+            } else {
+                // 1. Verificar Socket CPU vs Motherboard
+                if (cpu && mobo) {
+                    if (cpu.socket !== mobo.socket) {
+                        temErro = true;
+                        alertas.push({
+                            tipo: 'erro',
+                            texto: `Incompatibilidade de Socket: O processador usa ${cpu.socket}, mas a motherboard é ${mobo.socket}.`
+                        });
+                    } else {
+                        alertas.push({
+                            tipo: 'ok',
+                            texto: `Socket compatível (${cpu.socket}).`
+                        });
+                    }
+                }
+
+                // 2. Verificar RAM vs Motherboard
+                if (mobo && ram) {
+                    if (mobo.ram !== ram.tipo) {
+                        temErro = true;
+                        alertas.push({
+                            tipo: 'erro',
+                            texto: `Incompatibilidade de Memória: A motherboard suporta ${mobo.ram}, mas escolheste RAM ${ram.tipo}.`
+                        });
+                    } else {
+                        alertas.push({
+                            tipo: 'ok',
+                            texto: `Memória ${ram.tipo} compatível com a motherboard.`
+                        });
+                    }
+                }
+
+                // 3. Verificar Fonte de Alimentação (com margem recomendada de +100W)
+                const wattsRecomendados = wattsTotal + 100;
+                if (psu) {
+                    if (psu.capacidade < wattsTotal) {
+                        temErro = true;
+                        alertas.push({
+                            tipo: 'erro',
+                            texto: `Fonte insuficiente! O sistema consome ${wattsTotal}W e a fonte só fornece ${psu.capacidade}W.`
+                        });
+                    } else if (psu.capacidade < wattsRecomendados) {
+                        alertas.push({
+                            tipo: 'aviso',
+                            texto: `Fonte muito justa (${psu.capacidade}W para ${wattsTotal}W de consumo). Recomenda-se pelo menos ${wattsRecomendados}W.`
+                        });
+                    } else {
+                        alertas.push({
+                            tipo: 'ok',
+                            texto: `Potência da fonte adequada (${psu.capacidade}W para ~${wattsTotal}W de carga).`
+                        });
+                    }
+                } else if (wattsTotal > 0) {
+                    alertas.push({
+                        tipo: 'aviso',
+                        texto: `Falta escolher fonte de alimentação (mínimo recomendado: ${wattsRecomendados}W).`
+                    });
+                }
+
+                // 4. Aviso de vídeo se CPU não tiver gráfica integrada (termina em F) e não houver GPU
+                if (cpu && cpu.val.endsWith('f') && !gpu) {
+                    alertas.push({
+                        tipo: 'aviso',
+                        texto: `O processador ${cpu.nome} não tem gráficos integrados. Precisas de escolher uma placa gráfica para ter imagem.`
+                    });
+                }
+            }
+
+            // Renderizar alertas
+            const container = document.getElementById('alertas-container');
+            container.innerHTML = alertas.map(a => {
+                if (a.tipo === 'erro') {
+                    return `<div class="p-3.5 rounded-xl bg-red-950/70 border border-red-500/50 text-red-200 flex items-start gap-2.5">
+                        <i class="fa-solid fa-circle-xmark text-red-400 mt-0.5"></i>
+                        <span>${a.texto}</span>
+                    </div>`;
+                }
+                if (a.tipo === 'aviso') {
+                    return `<div class="p-3.5 rounded-xl bg-amber-950/60 border border-amber-500/40 text-amber-200 flex items-start gap-2.5">
+                        <i class="fa-solid fa-triangle-exclamation text-amber-400 mt-0.5"></i>
+                        <span>${a.texto}</span>
+                    </div>`;
+                }
+                if (a.tipo === 'ok') {
+                    return `<div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 flex items-start gap-2.5">
+                        <i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i>
+                        <span>${a.texto}</span>
+                    </div>`;
+                }
+                return `<div class="p-3.5 rounded-xl bg-blue-950/60 border border-sky-400/20 text-slate-300">${a.texto}</div>`;
+            }).join('');
+        }
+
+        function carregarPreset(tipo) {
+            if (tipo === 'escritorio') {
+                document.getElementById('cpu').value = 'i3-12100f';
+                document.getElementById('mobo').value = 'h610-ddr4';
+                document.getElementById('ram').value = '16gb-ddr4';
+                document.getElementById('gpu').value = 'rx7600';
+                document.getElementById('psu').value = '500w';
+            } else if (tipo === 'gaming') {
+                document.getElementById('cpu').value = 'r7-7800x3d';
+                document.getElementById('mobo').value = 'b650-ddr5';
+                document.getElementById('ram').value = '32gb-ddr5';
+                document.getElementById('gpu').value = 'rtx4070s';
+                document.getElementById('psu').value = '850w';
+            }
+            atualizarBuild();
+        }
+
+        function limparTudo() {
+            ['cpu', 'mobo', 'ram', 'gpu', 'psu'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            atualizarBuild();
+        }
+    </script>
+</body>
+</html>
